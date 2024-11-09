@@ -1,0 +1,64 @@
+Feb 13, 2024 8:53:15 AM org.jvnet.hudson.test.WarExploder explode
+INFO: Picking up existing exploded jenkins.war at /home/pyke/Documents/plugin_jenkins/demo-plugin/target/jenkins-for-test
+Feb 13, 2024 8:53:15 AM org.eclipse.jetty.server.handler.ContextHandler setContextPath
+WARNING: Empty contextPath
+Feb 13, 2024 8:53:16 AM org.eclipse.jetty.server.Server doStart
+INFO: jetty-10.0.17; built: 2023-10-09T18:22:21.150Z; git: af15f12297adf5c5083e1f2f8f4c5974438bca25; jvm 11.0.21+9-post-Ubuntu-0ubuntu122.04
+Feb 13, 2024 8:53:16 AM org.eclipse.jetty.webapp.StandardDescriptorProcessor visitServlet
+INFO: NO JSP Support for /, did not find org.eclipse.jetty.jsp.JettyJspServlet
+Feb 13, 2024 8:53:16 AM org.eclipse.jetty.server.session.DefaultSessionIdManager doStart
+INFO: Session workerName=node0
+Feb 13, 2024 8:53:16 AM org.eclipse.jetty.server.handler.ContextHandler doStart
+INFO: Started o.e.j.w.WebAppContext@6dd82486{Jenkins v2.387.3,/,file:///home/pyke/Documents/plugin_jenkins/demo-plugin/target/jenkins-for-test/,AVAILABLE}{/home/pyke/Documents/plugin_jenkins/demo-plugin/target/jenkins-for-test}
+Feb 13, 2024 8:53:16 AM org.eclipse.jetty.server.AbstractConnector doStart
+INFO: Started ServerConnector@73ba6fe6{HTTP/1.1, (http/1.1)}{localhost:41083}
+Feb 13, 2024 8:53:16 AM org.eclipse.jetty.server.Server doStart
+INFO: Started Server@2b8bd14b{STARTING}[10.0.17,sto=0] @1912ms
+Feb 13, 2024 8:53:16 AM jenkins.InitReactorRunner$1 onAttained
+INFO: Started initialization
+Feb 13, 2024 8:53:16 AM hudson.PluginManager considerDetachedPlugin
+INFO: Loading a detached plugin as a dependency: /home/pyke/Documents/plugin_jenkins/demo-plugin/target/tmp/jenkins10558891242492563847/plugins/javax-activation-api.jpi
+Feb 13, 2024 8:53:17 AM hudson.PluginManager considerDetachedPlugin
+INFO: Loading a detached plugin as a dependency: /home/pyke/Documents/plugin_jenkins/demo-plugin/target/tmp/jenkins10558891242492563847/plugins/javax-mail-api.jpi
+Feb 13, 2024 8:53:17 AM jenkins.InitReactorRunner$1 onAttained
+INFO: Listed all plugins
+Feb 13, 2024 8:53:17 AM jenkins.bouncycastle.api.BouncyCastlePlugin start
+INFO: /home/pyke/Documents/plugin_jenkins/demo-plugin/target/tmp/j h13186159676841995446/plugins/bouncycastle-api/WEB-INF/optional-lib not found; for non RealJenkinsRule this is fine and can be ignored.
+Feb 13, 2024 8:53:19 AM jenkins.InitReactorRunner$1 onAttained
+INFO: Prepared all plugins
+Feb 13, 2024 8:53:19 AM jenkins.InitReactorRunner$1 onAttained
+INFO: Started all plugins
+Feb 13, 2024 8:53:19 AM jenkins.InitReactorRunner$1 onAttained
+INFO: Augmented all extensions
+Feb 13, 2024 8:53:20 AM jenkins.InitReactorRunner$1 onAttained
+INFO: System config loaded
+Feb 13, 2024 8:53:20 AM jenkins.InitReactorRunner$1 onAttained
+INFO: System config adapted
+Feb 13, 2024 8:53:20 AM jenkins.InitReactorRunner$1 onAttained
+INFO: Loaded all jobs
+Feb 13, 2024 8:53:20 AM jenkins.InitReactorRunner$1 onAttained
+INFO: Configuration for all jobs updated
+Feb 13, 2024 8:53:20 AM jenkins.InitReactorRunner$1 onAttained
+INFO: Completed initialization
+Feb 13, 2024 8:53:20 AM org.eclipse.jetty.server.Server doStart
+INFO: jetty-10.0.17; built: 2023-10-09T18:22:21.150Z; git: af15f12297adf5c5083e1f2f8f4c5974438bca25; jvm 11.0.21+9-post-Ubuntu-0ubuntu122.04
+Feb 13, 2024 8:53:20 AM org.eclipse.jetty.server.session.DefaultSessionIdManager doStart
+INFO: Session workerName=node0
+Feb 13, 2024 8:53:20 AM org.eclipse.jetty.server.handler.ContextHandler doStart
+INFO: Started o.e.j.s.ServletContextHandler@7e446d92{/,null,AVAILABLE}
+Feb 13, 2024 8:53:20 AM org.eclipse.jetty.server.AbstractConnector doStart
+INFO: Started ServerConnector@6d5c2745{HTTP/1.1, (http/1.1)}{0.0.0.0:37947}
+Feb 13, 2024 8:53:20 AM org.eclipse.jetty.server.Server doStart
+INFO: Started Server@1947596f{STARTING}[10.0.17,sto=0] @6395ms
+Feb 13, 2024 8:53:22 AM org.eclipse.jetty.server.Server doStop
+INFO: Stopped Server@2b8bd14b{STOPPING}[10.0.17,sto=0]
+Feb 13, 2024 8:53:22 AM org.eclipse.jetty.server.AbstractConnector doStop
+INFO: Stopped ServerConnector@73ba6fe6{HTTP/1.1, (http/1.1)}{localhost:0}
+Feb 13, 2024 8:53:22 AM org.eclipse.jetty.server.handler.ContextHandler doStop
+INFO: Stopped o.e.j.w.WebAppContext@6dd82486{Jenkins v2.387.3,/,file:///home/pyke/Documents/plugin_jenkins/demo-plugin/target/jenkins-for-test/,STOPPED}{/home/pyke/Documents/plugin_jenkins/demo-plugin/target/jenkins-for-test}
+Feb 13, 2024 8:53:22 AM hudson.lifecycle.Lifecycle onStatusUpdate
+INFO: Stopping Jenkins
+Feb 13, 2024 8:53:22 AM hudson.lifecycle.Lifecycle onStatusUpdate
+INFO: Jenkins stopped
+Feb 13, 2024 8:53:23 AM org.jvnet.hudson.test.TemporaryDirectoryAllocator dispose
+INFO: deleting /home/pyke/Documents/plugin_jenkins/demo-plugin/target/tmp/j h13186159676841995446

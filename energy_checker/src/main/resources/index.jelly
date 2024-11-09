@@ -1,0 +1,5 @@
+<?jelly escape-by-default='true'?>
+<div>
+    <!-- Description du plugin Jenkins s'affichant notamment dans la liste des plugins installés -->
+    Mesure the energy consumption of your builds.
+</div>

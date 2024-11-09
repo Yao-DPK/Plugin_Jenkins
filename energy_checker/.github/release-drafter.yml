@@ -1,0 +1,2 @@
+_extends: .github
+tag-template: energy_checker-$NEXT_MINOR_VERSION

@@ -1,0 +1,23 @@
+Manifest-Version: 1.0
+Group-Id: io.jenkins.plugins
+Artifact-Id: demo
+Short-Name: demo
+Long-Name: TODO Plugin
+Url: https://github.com/jenkinsci/demo-plugin
+Plugin-Version: 1.0-SNAPSHOT (private-f523aa9f-pyke)
+Hudson-Version: 2.387.3
+Jenkins-Version: 2.387.3
+Plugin-Dependencies: structs:325.vcb_307d2a_2782
+Plugin-Developers: 
+Plugin-License-Name: MIT License
+Plugin-License-Url: https://opensource.org/license/mit/
+Plugin-ScmConnection: scm:git:https://github.com/jenkinsci/demo-plugin
+Plugin-ScmTag: HEAD
+Plugin-ScmUrl: https://github.com/jenkinsci/demo-plugin
+Plugin-GitHash: f523aa9fe11adff3aea2294687a50e52f86f7c5a
+Implementation-Build: f523aa9fe11adff3aea2294687a50e52f86f7c5a
+Libraries: /home/pyke/Documents/plugin_jenkins/demo-plugin/src/main/reso
+ urces,/home/pyke/Documents/plugin_jenkins/demo-plugin/target/classes
+Resource-Path: /home/pyke/Documents/plugin_jenkins/demo-plugin/src/main/
+ webapp
+

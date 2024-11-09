@@ -1,0 +1,74 @@
+version: '3.8'
+
+services:
+  mongo:
+    image: mongo
+    container_name: powerapi-mongodb
+    restart: always
+    env_file:
+      - .env_mongodb
+    ports:
+      - 27017:27017
+    volumes:
+      - ${DOCKER_POWERAPI_STORAGE}mongodb-storage:/data/db
+
+  influxdb:
+    restart: always
+    container_name: powerapi-influxdb
+    image: influxdb:1.8-alpine
+    ports:
+      - 8086:8086
+    network_mode: "host"
+    env_file:
+      - .env_influxdb
+    volumes:
+      - ${DOCKER_POWERAPI_STORAGE}influxdb-storage:/var/lib/influxdb
+    depends_on:
+      - mongo
+
+  grafana:
+    restart: always
+    image: grafana/grafana
+    container_name: powerapi-grafana
+    depends_on:
+      - influxdb
+      - mongo
+    ports:
+      - 3000:3000
+    network_mode: "host"
+    env_file:
+      - .env_grafana
+    user: "$UID:$GID"
+    volumes:
+      - ${DOCKER_POWERAPI_STORAGE}grafana-storage:/var/lib/grafana
+
+  powerapi-hwpc-sensor:
+    image: powerapi/hwpc-sensor:1.1.2
+    container_name: powerapi-sensor
+    depends_on:
+      - mongo
+      - influxdb
+      - grafana
+      - powerapi-smartwatts
+    restart: always
+    volumes:
+      - /sys:/sys
+      - /var/lib/docker/containers:/var/lib/docker/containers:ro
+      - ./config_file_hwpc.json:/config_file_hwpc.json
+    network_mode: "host"
+    privileged: true
+    command: ["-n", "powerapi/hwpc-sensor" ,"--config-file" ,"/config_file_hwpc.json"]
+    
+
+  powerapi-smartwatts:
+    image: powerapi/smartwatts-formula:0.9.2
+    container_name: powerapi-smarttwatts-formula
+    depends_on:
+      - mongo
+      - influxdb
+      - grafana
+    restart: always
+    network_mode: "host"
+    volumes:
+      - ./config_file_sw.json:/config_file_sw.json
+    command: ["powerapi/smartwatts-formula" ,"--config-file", "/config_file_sw.json"]

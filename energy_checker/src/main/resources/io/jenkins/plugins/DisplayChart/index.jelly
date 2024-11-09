@@ -1,0 +1,227 @@
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core" xmlns:l="/lib/layout" xmlns:st="jelly:stapler">
+    <l:layout title="Energy Consumption">
+        <l:side-panel>
+            <st:include page="sidepanel.jelly" it="${it.run}" optional="false" />
+        </l:side-panel>
+        <l:main-panel>
+            <div class="navbar">
+                <div class="nav-item active" id="nav-builds">Builds</div>
+                <div class="nav-item" id="nav-stages">Stages</div>
+                <div class="nav-item" id="nav-execution">Evolution</div>
+            </div>
+            <div class="toggle-container">
+                <div class="toggle-button active" id="toggle-watt">Watt</div>
+                <div class="toggle-button" id="toggle-joule">Joule</div>
+            </div>
+            <form id="chartForm" style="display:block;">
+                <label for="numBuilds">Nombre de builds à afficher : </label>
+                <select id="numBuilds" onchange="updateChart()">
+                    <option value="5">Les 5 derniers builds</option>
+                    <option value="10">Les 10 derniers builds</option>
+                    <option value="all">Tous les builds</option>
+                </select>
+            </form>
+            <div id="chartContainer" style="width: 100%; height: 100%;">
+                <canvas id="chart"></canvas>
+            </div>
+            <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+            <script>
+                var ctx = document.getElementById('chart').getContext('2d');
+                var unit = 'watts';
+                var currentView = 'builds';
+                var chart;
+
+                var energyConsumptions = ${it.getEnergyHistoryAsJsonAll()};
+                var powerUsages = ${it.getPowerHistoryAsJsonAll()};
+                var allLabels = ${it.getLabelsAsJson()};
+
+                var stageData = ${it.getStageDataAsJson() != null ? it.getStageDataAsJson() : "[]"};
+                var executionData = ${it.getExecutionDataAsJson() != null ? it.getExecutionDataAsJson() : "[]"};
+
+
+
+                console.log("Energy Consumptions:", ${it.getEnergyHistoryAsJsonAll()});
+                console.log("Power Usages:", ${it.getPowerHistoryAsJsonAll()});
+                console.log("Stage Data:", ${it.getStageDataAsJson()});
+                console.log("Execution Data:", ${it.getExecutionDataAsJson()});
+                console.log("All Labels:", ${it.getLabelsAsJson()});
+
+
+                function setActiveToggle(activeToggleId) {
+                    var toggles = document.querySelectorAll('.toggle-button');
+                    toggles.forEach(function(toggle) {
+                        if (toggle.id === activeToggleId) {
+                            toggle.classList.add('active');
+                        } else {
+                            toggle.classList.remove('active');
+                        }
+                    });
+                }
+
+                function destroyChartIfExists(chart) {
+                    if(chart) {
+                        chart.destroy();
+                    }
+                }
+
+                function setActiveNav(activeNavId) {
+                    var navItems = document.querySelectorAll('.nav-item');
+                    navItems.forEach(function(navItem) {
+                        if (navItem.id === activeNavId) {
+                            navItem.classList.add('active');
+                        } else {
+                            navItem.classList.remove('active');
+                        }
+                    });
+                }
+
+                function updateChart() {
+                    destroyChartIfExists(chart);
+
+                    var data, labels, label, type, title;
+
+                    if (currentView === 'builds') {
+                        data = unit === 'watts' ? powerUsages : energyConsumptions;
+                        label = unit === 'watts' ? 'Power Used (Watts)' : 'Energy Consumed (Joules)';
+                        var numBuilds = document.getElementById('numBuilds').value;
+
+                        if (numBuilds === 'all') {
+                            labels = allLabels;
+                        } else {
+                            numBuilds = parseInt(numBuilds);
+                            data = data.slice(-numBuilds);
+                            labels = allLabels.slice(-numBuilds);
+                        }
+                        type = 'bar';
+                        title = 'Energetic Metrics of Builds';
+                    } else if (currentView === 'stages') {
+                        labels = stageData.map(data => data.stageName);
+                        data = unit === 'watts' ? stageData.map(data => data.wattsProvided) : stageData.map(data => data.joulesConsumed);
+                        label = unit === 'watts' ? 'Power Used (Watts)' : 'Energy Consumed (Joules)';
+                        type = 'bar';
+                        title = 'Energetic Metrics by Stages';
+                    } else if (currentView === 'execution') {
+                        labels = executionData.map((data, index) => (index + 1.0));
+                        data = unit === 'watts' ? executionData.map(data => data.wattsProvided) : executionData.map(data => data.joulesConsumed);
+                        if (unit !== 'watts') {
+                            data = data.reduce((acc, value) => {
+                                if (acc.length > 0) {
+                                    acc.push(acc[acc.length - 1] + value);
+                                } else {
+                                    acc.push(value);
+                                }
+                                return acc;
+                            }, []);
+                        }
+                        label = unit === 'watts' ? 'Power Used (Watts)' : 'Energy Consumed (Joules)';
+                        type = 'line';
+                        title = 'Energetic Metrics Evolution';
+                    }
+
+                    chart = new Chart(ctx, {
+                        type: type,
+                        data: {
+                            labels: labels,
+                            datasets: [{
+                                label: label,
+                                data: data,
+                                backgroundColor: [
+                                    'rgba(190, 255, 0, 0.65)'
+                                ],
+                                borderColor: [
+                                    'rgba(190, 255, 0, 1)'
+                                ],
+                                borderWidth: 2
+                            }]
+                        },
+                        options: {
+                            scales: {
+                                y: {
+                                    beginAtZero: true
+                                }
+                            },
+                            plugins: {
+                                title: {
+                                    display: true,
+                                    text: title
+                                }
+                            }
+                        }
+                    });
+                }
+
+                document.getElementById('toggle-watt').addEventListener('click', function() {
+                    unit = 'watts';
+                    updateChart();
+                    setActiveToggle('toggle-watt');
+                });
+
+                document.getElementById('toggle-joule').addEventListener('click', function() {
+                    unit = 'joules';
+                    updateChart();
+                    setActiveToggle('toggle-joule');
+                });
+
+                document.getElementById('nav-builds').addEventListener('click', function() {
+                    currentView = 'builds';
+                    document.getElementById('chartForm').style.display = 'block';
+                    updateChart();
+                    setActiveNav('nav-builds');
+                });
+
+                document.getElementById('nav-stages').addEventListener('click', function() {
+                    currentView = 'stages';
+                    document.getElementById('chartForm').style.display = 'none';
+                    updateChart();
+                    setActiveNav('nav-stages');
+                });
+
+                document.getElementById('nav-execution').addEventListener('click', function() {
+                    currentView = 'execution';
+                    document.getElementById('chartForm').style.display = 'none';
+                    updateChart();
+                    setActiveNav('nav-execution');
+                });
+
+                setActiveToggle('toggle-watt');
+                setActiveNav('nav-builds');
+                updateChart();
+            </script>
+            <style>
+                .navbar {
+                display: flex;
+                justify-content: center;
+                margin-bottom: 20px;
+                }
+                .nav-item {
+                flex: 1;
+                text-align: center;
+                padding: 10px;
+                border: 1px solid #000;
+                cursor: pointer;
+                }
+                .nav-item.active {
+                background-color: #f0f0f0;
+                font-weight: bold;
+                }
+                .toggle-container {
+                display: flex;
+                justify-content: center;
+                margin-bottom: 20px;
+                }
+                .toggle-button {
+                flex: 1;
+                text-align: center;
+                padding: 10px;
+                border: 1px solid #000;
+                cursor: pointer;
+                }
+                .toggle-button.active {
+                background-color: #f0f0f0;
+                font-weight: bold;
+                }
+            </style>
+        </l:main-panel>
+    </l:layout>
+</j:jelly>

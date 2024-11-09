@@ -1,0 +1,6 @@
+Started by user unknown or anonymous
+Running as SYSTEM
+Building in workspace /home/pyke/Documents/plugin_jenkins/demo-plugin/work/workspace/Pyke2
+Erreur lors de la lecture du fichier : /sys/devices/virtual/powercap/intel-rapl/intel-rapl/intel-rapl:0/energy_uj
+Build step 'Afficher le contenu d'un fichier' marked build as failure
+Finished: FAILURE
