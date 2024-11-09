@@ -65,6 +65,3 @@ ngrok http --domain=settled-leopard-flowing.ngrok-free.app 172.20.10.3:8000
 URL :
 https://settled-leopard-flowing.ngrok-free.app/
 
-# Plugin_Jenkins
-# Plugin_Jenkins
-# Plugin_Jenkins
